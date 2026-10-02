@@ -94,6 +94,11 @@ swift run -c release FaceKitEval <lfw image dir> <pairs.txt>
 - Templates are biometric data (GDPR art. 9, Vietnam Decree 13/2023, BIPA...). Obtain consent,
   encrypt at rest (`FileFaceStore(key:)`), and offer deletion (`remove(id:)`).
 
+## Licence
+
+FaceKit's code is released under the [MIT License](LICENSE). The bundled model is covered by
+[NOTICE](NOTICE) and the section below.
+
 ## Model provenance and licence
 
 The FaceNet code by David Sandberg is MIT-licensed. The bundled weights produce 128-d

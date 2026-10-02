@@ -1,0 +1,10 @@
+FaceKit bundles third-party material:
+
+Sources/FaceKitCoreML/Resources/FaceNet.mlmodelc
+  Core ML conversion of a pretrained FaceNet (InceptionResNetV1) model from
+  https://github.com/davidsandberg/facenet
+  Copyright (c) 2016 David Sandberg. Released under the MIT License.
+
+  The weights were trained on third-party face datasets whose terms may restrict
+  use (see "Model provenance and licence" in README.md). FaceKit's MIT licence
+  covers FaceKit's own code and does not grant rights beyond those terms.
