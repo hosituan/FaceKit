@@ -2,6 +2,7 @@
 
 On-device face enrollment and identification for iOS 15+ / macOS 12+, as a Swift package.
 Extracted from the `clockon-clockoff-face-recognition` attendance app and rewritten.
+The story behind it: [Five years later: rebuilding my iOS FaceNet app as an open-source Swift package](https://hosituan.medium.com/five-years-later-rebuilding-my-ios-facenet-app-as-an-open-source-swift-package-447a99848d1e).
 
 - **Detection & alignment**: Vision face landmarks, crop levelled on the eyes.
 - **Embedding**: FaceNet (InceptionResNetV1, 128-d) converted to Core ML, fp16 weights (44 MB).
@@ -91,8 +92,9 @@ swift run -c release FaceKitEval <lfw image dir> <pairs.txt>
 
 - **No liveness / anti-spoofing.** A printed photo or a video of an enrolled person will match.
   Do not use this alone for security-sensitive decisions.
-- Templates are biometric data (GDPR art. 9, Vietnam Decree 13/2023, BIPA...). Obtain consent,
-  encrypt at rest (`FileFaceStore(key:)`), and offer deletion (`remove(id:)`).
+- Templates are biometric data, treated as sensitive personal data by laws such as the EU GDPR
+  (Article 9) and Vietnam's personal data protection rules; check the rules that apply to you.
+  Obtain consent, encrypt at rest (`FileFaceStore(key:)`), and offer deletion (`remove(id:)`).
 
 ## Licence
 
@@ -102,8 +104,9 @@ FaceKit's code is released under the [MIT License](LICENSE). The bundled model i
 ## Model provenance and licence
 
 The FaceNet code by David Sandberg is MIT-licensed. The bundled weights produce 128-d
-embeddings, which matches the 2017 pretrained FaceNet releases (trained on CASIA-WebFace or
-MS-Celeb-1M). Those datasets carry research-only / withdrawn terms. **Check the weights'
+embeddings, while the pretrained models FaceNet lists today (2018, trained on CASIA-WebFace and
+VGGFace2) produce 512-d, so these come from an earlier FaceNet release. The public face datasets
+those models were trained on carry research-only or withdrawn terms. **Check the weights'
 licence before commercial use**, or swap in a model you have rights to.
 
 ## Development
