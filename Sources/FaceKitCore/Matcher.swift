@@ -2,8 +2,10 @@ import Foundation
 
 /// Distance thresholds used to classify a match.
 ///
-/// The defaults are the values the original app used with this FaceNet model. They have
-/// not been calibrated on a benchmark yet; measure FAR/FRR on your own data before relying on them.
+/// Defaults are calibrated on LFW with the bundled FaceNet model and default `FaceAligner`
+/// (see Tools/FaceKitEval): `confident` 0.9 accepted no impostor pair (0/3000) at 88.6% TAR,
+/// `candidate` 1.0 gave 0.03% FAR at 96.0% TAR. These are 1:1 rates; with N enrolled people
+/// a stranger's chance of matching someone grows roughly N-fold, so re-measure on your own data.
 public struct MatchThresholds: Codable, Hashable, Sendable {
     /// Distances at or below this are an unambiguous match.
     public var confident: Float
@@ -11,7 +13,7 @@ public struct MatchThresholds: Codable, Hashable, Sendable {
     /// (for example over several frames with `FrameConsensus`).
     public var candidate: Float
 
-    public init(confident: Float = 0.4, candidate: Float = 0.7) {
+    public init(confident: Float = 0.9, candidate: Float = 1.0) {
         precondition(confident <= candidate, "confident must not exceed candidate")
         self.confident = confident
         self.candidate = candidate

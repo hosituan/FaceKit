@@ -8,7 +8,7 @@ public struct FaceAligner: Sendable {
     public var margin: CGFloat
     public var correctsRoll: Bool
 
-    public init(outputSize: Int = 160, margin: CGFloat = 0.2, correctsRoll: Bool = true) {
+    public init(outputSize: Int = 160, margin: CGFloat = 0.1, correctsRoll: Bool = true) {
         self.outputSize = outputSize
         self.margin = margin
         self.correctsRoll = correctsRoll

@@ -8,3 +8,4 @@ DerivedData/
 venv/
 out/
 __pycache__/
+.build/

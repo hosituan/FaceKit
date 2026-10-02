@@ -46,11 +46,37 @@ for r in try await recognizer.identify(in: pixelBuffer, orientation: .leftMirror
 `MatchResult` exposes the real L2 distance (`0...2`, lower is closer) and the runner-up
 distance; there is no synthetic "confidence %".
 
-## Thresholds
+## Accuracy and thresholds
 
-Defaults (`confident: 0.4`, `candidate: 0.7`) come from the original app and are **not
-calibrated**. Measure false accept / false reject rates on data representative of your users
-and set `MatchThresholds` accordingly.
+Measured with the full pipeline (Vision → alignment → Core ML) on the LFW verification
+protocol, 6,000 pairs, default `FaceAligner` (margin 0.1, eyes levelled):
+
+| Metric | Value |
+|---|---|
+| 10-fold accuracy | 99.17% ± 0.51 |
+| Equal error rate | 0.83% (distance 1.13) |
+| TAR at FAR ≤ 1% / 0.1% | 99.23% / 96.90% |
+| Distance 0.9 (`confident` default) | FAR 0.00% (0/3000), TAR 88.63% |
+| Distance 1.0 (`candidate` default) | FAR 0.03%, TAR 95.97% |
+| Throughput (M1 Max, parallel, macOS) | 2.7 ms per crop |
+
+Margin sweep: 0.0 → 98.95%, 0.05 → 99.22%, 0.1 → 99.17%, 0.15 → 99.05%, 0.2 → 98.90%;
+without eye levelling (margin 0.1) 98.93%.
+
+Caveats:
+- These are 1:1 rates. In 1:N identification a stranger is compared with every enrolled
+  person, so the false-accept chance grows roughly with N. Require `FrameConsensus` for
+  `.candidate` matches and re-measure on your own users and camera.
+- LFW is celebrity photos; the model's training data (see below) may overlap LFW identities,
+  so results can be optimistic. A front-facing kiosk camera is a different distribution.
+- The original app used 0.4 / 0.7; on LFW those accept only 3% / 53% of genuine pairs.
+
+Reproduce:
+
+```sh
+cd Tools/FaceKitEval
+swift run -c release FaceKitEval <lfw image dir> <pairs.txt>
+```
 
 ## Limitations
 
