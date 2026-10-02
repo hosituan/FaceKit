@@ -1,0 +1,76 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "shortDescription" : "FaceNet (InceptionResNetV1) face embedding, 128-d, L2-normalised.",
+    "outputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float32",
+        "formattedType" : "MultiArray (Float32 1 × 128)",
+        "shortDescription" : "128-d L2-normalised embedding.",
+        "shape" : "[1, 128]",
+        "name" : "embeddings",
+        "type" : "MultiArray"
+      }
+    ],
+    "storagePrecision" : "Float16",
+    "modelParameters" : [
+
+    ],
+    "author" : "FaceNet: David Sandberg (MIT). Converted for FaceKit.",
+    "specificationVersion" : 6,
+    "mlProgramOperationTypeHistogram" : {
+      "Concat" : 23,
+      "Transpose" : 1,
+      "Matmul" : 1,
+      "Maximum" : 1,
+      "AvgPool" : 1,
+      "Rsqrt" : 1,
+      "Relu" : 131,
+      "Mul" : 4,
+      "Cast" : 2,
+      "ReduceSum" : 1,
+      "Add" : 23,
+      "Reshape" : 1,
+      "MaxPool" : 3,
+      "Conv" : 132
+    },
+    "computePrecision" : "Mixed (Float16, Float32, Int32)",
+    "isUpdatable" : "0",
+    "stateSchema" : [
+
+    ],
+    "availability" : {
+      "macOS" : "12.0",
+      "tvOS" : "15.0",
+      "visionOS" : "1.0",
+      "watchOS" : "8.0",
+      "iOS" : "15.0",
+      "macCatalyst" : "15.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_mlProgram"
+    },
+    "inputSchema" : [
+      {
+        "height" : "160",
+        "colorspace" : "RGB",
+        "isOptional" : "0",
+        "width" : "160",
+        "isColor" : "1",
+        "formattedType" : "Image (Color 160 × 160)",
+        "hasSizeFlexibility" : "0",
+        "type" : "Image",
+        "shortDescription" : "Aligned RGB face crop, 160x160.",
+        "name" : "input"
+      }
+    ],
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.version" : "8.3.0",
+      "com.github.apple.coremltools.source" : "tensorflow==2.15.1"
+    },
+    "generatedClassName" : "FaceNet",
+    "method" : "predict"
+  }
+]
