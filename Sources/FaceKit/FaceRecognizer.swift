@@ -122,10 +122,25 @@ public actor FaceRecognizer {
         }
         let templates = options.templatesPerIdentity.map { KMeans(k: $0).centroids(of: collected) } ?? collected
         let identity = Identity(id: id, templates: templates)
-        try await store.save(identity)
-        gallery.removeAll { $0.id == id }
-        gallery.append(identity)
+        try await save(identity)
         return identity
+    }
+
+    /// Adds or replaces an identity whose templates were computed elsewhere,
+    /// for example synced from a server. Templates must come from this model and aligner.
+    public func save(_ identity: Identity) async throws {
+        try await store.save(identity)
+        gallery.removeAll { $0.id == identity.id }
+        gallery.append(identity)
+    }
+
+    /// Replaces every enrolled identity, e.g. with a fresh copy from a server.
+    public func replaceAll(with identities: [Identity]) async throws {
+        try await store.deleteAll()
+        for identity in identities {
+            try await store.save(identity)
+        }
+        gallery = try await store.loadAll()
     }
 
     public func remove(id: String) async throws {

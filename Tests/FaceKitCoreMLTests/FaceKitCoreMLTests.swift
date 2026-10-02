@@ -71,6 +71,23 @@ final class FaceAlignerTests: XCTestCase {
 }
 
 final class FaceRecognizerTests: XCTestCase {
+    func testSaveAndReplaceIdentitiesPersistToStore() async throws {
+        let store = InMemoryFaceStore([Identity(id: "old", templates: [FaceEmbedding([1, 0])])])
+        let recognizer = try await FaceRecognizer(store: store)
+        let loaded = await recognizer.identities
+        XCTAssertEqual(loaded.map(\.id), ["old"])
+
+        try await recognizer.save(Identity(id: "a", templates: [FaceEmbedding([0, 1])]))
+        let afterSave = await recognizer.identities
+        XCTAssertEqual(Set(afterSave.map(\.id)), ["old", "a"])
+
+        try await recognizer.replaceAll(with: [Identity(id: "b", templates: [FaceEmbedding([1, 1])])])
+        let afterReplace = await recognizer.identities
+        let stored = await store.loadAll()
+        XCTAssertEqual(afterReplace.map(\.id), ["b"])
+        XCTAssertEqual(stored.map(\.id), ["b"])
+    }
+
     func testImageWithoutFaces() async throws {
         let recognizer = try await FaceRecognizer()
         let image = loadCGImage(fixtureURL("gradient160.png"))
