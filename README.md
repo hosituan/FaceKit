@@ -46,6 +46,15 @@ for r in try await recognizer.identify(in: pixelBuffer, orientation: .leftMirror
 `MatchResult` exposes the real L2 distance (`0...2`, lower is closer) and the runner-up
 distance; there is no synthetic "confidence %".
 
+## Example app
+
+`Examples/FaceKitDemo` is a SwiftUI app using the package from this working copy: live
+front-camera recognition with a box and name per face (green = confident, yellow = candidate,
+red = unknown), enrollment by name from ~3 s of camera frames, and a list to delete people.
+
+Open `Examples/FaceKitDemo/FaceKitDemo.xcodeproj`, choose your team under Signing, and run it on
+an iPhone or iPad (the simulator has no camera).
+
 ## Accuracy and thresholds
 
 Measured with the full pipeline (Vision → alignment → Core ML) on the LFW verification

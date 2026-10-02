@@ -4,7 +4,6 @@
 /Packages
 xcuserdata/
 DerivedData/
-*.xcodeproj
 venv/
 out/
 __pycache__/
